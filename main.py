@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 import validators
+import secrets
 
 
 
@@ -11,18 +12,60 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 
 db = SQLAlchemy(app)
 
+
+class Url(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    original_url = db.Column(db.String(), nullable=False)
+    shortened_url = db.Column(db.String(), nullable=False)
+
+
+# @app.before_request
+# def clear_session_on_reload():
+#     # Clear session only on a GET request to the 'index' route
+#     if request.endpoint == 'shorten' and request.method == 'GET':
+#         return redirect(url_for('index'))
+
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', blinked_url=session.get('blinked_url'))
 
-@app.route("/shorten", methods=['POST'])
+@app.route("/blink", methods=['POST'])
 def shorten():
-    url = request.form.get('url')
-    if validators.url(url):
-        return render_template('index.html', url=url)
+    if request.method == 'POST':
+        url = request.form.get('url')
+        if validators.url(url):
+            base_url = request.url_root
+            secret = secrets.token_hex(4)
+            blinked_url = base_url + secret
+
+            new_url = Url(original_url=url, shortened_url=blinked_url)
+            db.session.add(new_url)
+            db.session.commit()
+
+            return render_template('blinked.html', blinked_url=blinked_url)
+        else:
+            flash('Not a valid URL')
+            return redirect(url_for('index'))
     else:
-        flash('Not a valid URL')
         return redirect(url_for('index'))
+
+@app.route("/<url>", methods=['GET'])
+def redirect_to_original(url):
+    base_url = request.host_url  # Use only the host part of the URL
+    search_url = base_url + url  # Construct the full shortened URL
+    app.logger.debug(f"Searching for: {search_url}")
+
+    # Query the database for the matching shortened URL
+    redirect_entry = Url.query.filter_by(shortened_url=search_url).first()
+
+    if redirect_entry:
+        app.logger.debug(f"Found original URL: {redirect_entry.original_url}")
+        return redirect(redirect_entry.original_url)  # Redirect to the original URL
+    else:
+        app.logger.debug("Shortened URL not found")
+        flash('Shortened URL not found')
+        return redirect(url_for('index'))  # Redirect back to the index page
+
 
 
 

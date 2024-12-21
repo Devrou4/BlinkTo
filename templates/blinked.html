@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div id="app">
+        <h1 align="center">>></h1>
+        <div id="row">
+            <span id="output">{{ blinked_url }}</span>
+            <button type="button" onclick="copy()">COPY</button>
+            <a href="{{ url_for('index') }}"><button type="button">RETURN</button></a>
+        </div>
+    </div>
+
+    <script>
+        function copy(){
+        let shortened_url = document.getElementById("output");
+        navigator.clipboard.writeText(shortened_url.textContent);
+        }
+    </script>
+ 
+</body>
+</html>

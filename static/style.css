@@ -9,10 +9,6 @@ body {
     height: 100vh;
 }
 
-#app {
-    margin-bottom: 20px; /* Add spacing between #app and #result */
-}
-
 input {
     height: 25px;
     width: 300px;
@@ -24,10 +20,26 @@ input {
     color: white;
 }
 
+#app {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center the elements horizontally */
+}
+
+h1 {
+    margin-bottom: 20px; /* Space between the h1 and the next elements */
+}
+
+#row {
+    display: flex;
+    align-items: center; /* Align items horizontally in the center */
+}
+
 #output {
+    display: inline-block;
     height: 25px;
     width: 300px;
-    margin-right: 6px;
+    margin-right: 5px; /* Space between the span and buttons */
     padding: 3px;
     border: 1px solid white;
     border-radius: 10px;
@@ -42,6 +54,7 @@ button {
     background-color: hsl(0, 0%, 10%);
     color: white;
     border-radius: 8px;
+    margin-left: 5px; /* Add space between multiple buttons */
 }
 
 button:hover {
@@ -51,9 +64,3 @@ button:hover {
 button:active {
     background-color: hsl(0, 0%, 20%);
 }
-
-#result
-{
-    display: flex;
-}
-
