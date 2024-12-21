@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* Stack items vertically */
+    height: 100vh;
+}
+
+#app {
+    margin-bottom: 20px; /* Add spacing between #app and #result */
+}
+
+input {
+    height: 25px;
+    width: 300px;
+    margin: 3px;
+    padding: 3px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: hsl(0, 0%, 10%);
+    color: white;
+}
+
+#output {
+    height: 25px;
+    width: 300px;
+    margin-right: 6px;
+    padding: 3px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: hsl(0, 0%, 10%);
+    color: white;
+}
+
+button {
+    height: 30px;
+    width: 6rem;
+    border: 1px solid white;
+    background-color: hsl(0, 0%, 10%);
+    color: white;
+    border-radius: 8px;
+}
+
+button:hover {
+    background-color: hsl(0, 0%, 15%);
+}
+
+button:active {
+    background-color: hsl(0, 0%, 20%);
+}
+
+#result
+{
+    display: flex;
+}
+
