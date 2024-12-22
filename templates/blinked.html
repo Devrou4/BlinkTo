@@ -1,41 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+{% block content %}
 
-</head>
-<body>
+<h1 align="center">>></h1>
+<div id="row">
+    <input id="output" style="width: 200px;" readonly value="{{ blinked_url }}">
+    <button type="button" onclick="copy()"><img src="/static/icons/copy.png" class="icon">COPY</button>
+    <a href="{{ url_for('index') }}"><button type="button"><img src="/static/icons/return.png" class="icon">RETURN</button></a>
+</div>
 
-    <div id="app">
-        <h1 align="center">>></h1>
-        <div id="row">
-            <input id="output" style="width: 200px;" readonly value="{{ blinked_url }}">
-            <button type="button" onclick="copy()"><img src="/static/icons/copy.png" class="icon">COPY</button>
-            <a href="{{ url_for('index') }}"><button type="button"><img src="/static/icons/return.png" class="icon">RETURN</button></a>
-        </div>
-    </div>
-
-    <div class="flash">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-                
-            {% endif %}
-        {% endwith %}
-    </div>
-
-    <script>
-        function copy(){
-            let shortened_url = document.getElementById("output");
-            navigator.clipboard.writeText(shortened_url.value);
-        }
-    </script>
- 
-</body>
-</html>
+{% endblock content %}

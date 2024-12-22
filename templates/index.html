@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
-</head>
-<body>
-
-    <div id="app">
-        <h1 align="center">>></h1>
-        <form method="POST" action="{{ url_for('shorten') }}">
-            <input type="text" autocomplete="off" name="url" placeholder="Paste link here">
-            <button type="submit">BLINK >></button>
-        </form>
-    </div>
-    
-    <div class="flash">
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-            
-        {% endif %}
-    {% endwith %}
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+    <h1 align="center">>></h1>
+    <form method="POST" action="{{ url_for('shorten') }}">
+        <input type="url" autocomplete="off" name="url" placeholder="Paste link here">
+        <button type="submit">BLINK >></button>
+    </form>
+{% endblock content %}

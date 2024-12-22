@@ -21,7 +21,6 @@ input {
     color: white;
     outline: none;
     background-image: url('../icons/link.png');
-
     background-size: 15px auto;
     background-position: 10px 8px;
     background-repeat: no-repeat;
@@ -32,6 +31,9 @@ input:focus {
     border: 2px solid #e1e1e1;
 }
 
+h1{
+    user-select: none;
+}
 
 #app {
     display: flex;
@@ -49,6 +51,7 @@ h1 {
 }
 
 button {
+    user-select: none;
     height: 33px;
     width: 6rem;
     border: 2px solid #383838;
