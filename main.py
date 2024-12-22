@@ -4,7 +4,6 @@ import validators
 import secrets
 
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '580cdbc914507569f2c2373e'
 # app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -18,12 +17,6 @@ class Url(db.Model):
     original_url = db.Column(db.String(), nullable=False)
     shortened_url = db.Column(db.String(), nullable=False)
 
-
-# @app.before_request
-# def clear_session_on_reload():
-#     # Clear session only on a GET request to the 'index' route
-#     if request.endpoint == 'shorten' and request.method == 'GET':
-#         return redirect(url_for('index'))
 
 @app.route("/")
 def index():
@@ -51,22 +44,19 @@ def shorten():
 
 @app.route("/<url>", methods=['GET'])
 def redirect_to_original(url):
-    base_url = request.host_url  # Use only the host part of the URL
-    search_url = base_url + url  # Construct the full shortened URL
+    base_url = request.host_url
+    search_url = base_url + url
     app.logger.debug(f"Searching for: {search_url}")
 
-    # Query the database for the matching shortened URL
     redirect_entry = Url.query.filter_by(shortened_url=search_url).first()
 
     if redirect_entry:
         app.logger.debug(f"Found original URL: {redirect_entry.original_url}")
-        return redirect(redirect_entry.original_url)  # Redirect to the original URL
+        return redirect(redirect_entry.original_url) 
     else:
         app.logger.debug("Shortened URL not found")
         flash('Shortened URL not found')
-        return redirect(url_for('index'))  # Redirect back to the index page
-
-
+        return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
